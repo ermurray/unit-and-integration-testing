@@ -52,7 +52,7 @@ test('Shows appropriate message when the status is "Tied"', () => {
   expect(getByTestId('result_footer')).toMatchInlineSnapshot(`
     <footer
       data-testid="result_footer"
-    >
+      >
       <h2>
         You tied !
       </h2>

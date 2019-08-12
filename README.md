@@ -1,68 +1,82 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# W8D1 - Unit & Integration Testing
 
-## Available Scripts
+Today we'll talk about the differences and usage between unit, integration and end to end testing using a small project.
 
-In the project directory, you can run:
+## Review 
 
-### `npm start`
+### Static testing
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+It's mostly all about the linter, very cheap and makes sure that we have no syntax errors, typos etc.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### Unit testing
 
-### `npm test`
+Testing the mechanics of a function, or a set of instructions, making sure that the output is always consistent. Still pretty cheap, and makes you think about how your function should work.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Feature testing (or integration testing)
 
-### `npm run build`
+How the user will interact with a specific component or function and making sure it works well with other functions and factors. Relatively time consuming
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### End-to-end testing
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+Closely based on your user flow ( user experience), making sure that the workflow of your app is working through multiple features. Expense to structure, but with the right tools (proper workflow with jest or Cypress) it can be maintainable easily.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## When to write tests
 
-### `npm run eject`
+### Code & Test
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+When you have an idea, it's easy to just write the code and then the testing later, it's okay to approach it like that, but it's dangerous if you procrastinate on the text writing.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Test driven
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+A highly regarded approach, writing your tests while thinking what your code should do is a very good way to make sure you cover all the test cases. It's also making it easier to have confidence in what you are coding because your test framework can watch your code and confirm or infirm based on the tests.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## How to write tests
 
-## Learn More
+### Setup & Teardown
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+It's important when we write tests to prepare as close as possible as the real world usage to make sure the test reflects what will happen when a user or other code will react with it. It's then important to properly setup the test conditions and make sure that once the test has been executed, you tear down all changes to leave ideally no traces for the next test.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Appropriate Scoping
 
-### Code Splitting
+Depending on how you will build your tests, it's important to scope your variables appropriately to make sure thatthere won't be leaks or interferences in other tests.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Debugging
 
-### Analyzing the Bundle Size
+If a test is not working and it's hard to know why, you can use the debug() function or the prettyDOM (from dom-testing-library) to output elements and see how the page was built and seen from the eyes of the jest DOM.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### Coverage
 
-### Making a Progressive Web App
+As we seen in class, the basic App.test.js made by create-react-app makes for a great coverage, however it doesn't give us great confidence. It's important to think about the code coverage of our tests, but it's more important to have solid tests with a little less coverage than easy tests with a lot of coverage. (It's okay to not have 100% coverage, it's almost impossible !)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+## Tools to test with React
 
-### Advanced Configuration
+### Jest
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+Jest is the framework we use to run our tests. It's there to help us manipulate the DOM, render our React elements when using external libraries, and give us a way to see our code coverage. It's readily available in create-react-app, so no need to configure. 
 
-### Deployment
+- 'npm run test' will start Jest in watch mode and run the tests
+- 'npm run test -- --coverage' will start Jest in watch mode and show your coverage status after each test 
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+https://jestjs.io/
 
-### `npm run build` fails to minify
+#### JestDOM
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+JestDOM is a set of matchers (like .toHaveClass() or toBeVisible()) to help you target elements in the DOM to facilitate your testing.
+
+https://github.com/testing-library/jest-dom
+
+### DOM Testing Library
+
+DOM Testing Library is a set of tools to help you target DOM elements.
+
+#### getBy & queryBy
+
+One small thing about getBy and queryBy to be aware of is that getBy will throw an error if the element is not found. queryBy will return only null, so it's up to the context to guide you which you should use.
+
+https://testing-library.com/docs/dom-testing-library/intro
+
+### React Testing Library
+
+Build on top of the DOM Testing Library, the React one gives us more possibilities to target and render React elements to make them possible to test.
+
+https://testing-library.com/docs/react-testing-library/intro

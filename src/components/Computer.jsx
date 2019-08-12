@@ -1,10 +1,10 @@
 import React from 'react';
 
 export default function Computer(props) {
-  const {setState, cheating} = props
+  const {cheating, setState} = props
   return (
    <section className="computer">
-      <span data-testid="robot-icon" className={cheating ? "cheating" : null} role="img" aria-label="robot" onClick={() => setState(prevState => ({ ...prevState, cheating: (prevState.cheating ? false : true) })) }>
+      <span onClick={() => setState(prevState => ({...prevState, cheating:prevState.cheating ? false : true}))} data-testid="robot-icon" className={cheating ? "cheating" : null} role="img" aria-label="robot" >
         🤖
       </span>
       <div>

@@ -4,14 +4,14 @@ import Player from './Player'
 import Result from './Result'
 
 export default function Game(props) {
-  const [state, setState] = useState({compSelection:null, playerSelection:null, status:'Waiting', cheating:false})
+  const [state, setState] = useState({cheating:true})
   return (
     <div>
     <main className="game">
-      <Computer setState={setState} cheating={state.cheating} />
-      <Player state={state} setState={setState}/>
+      <Computer cheating={state.cheating} setState={setState}/>
+      <Player />
     </main>
-      <Result status={state.status} />
+      <Result />
     </div>
   )
 }
