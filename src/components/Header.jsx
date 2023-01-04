@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Header(props) {
+const Header = () => {
   return(
     <header>
       <h1>Moai Axe Tree</h1>
@@ -13,4 +13,6 @@ export default function Header(props) {
       </h2>
     </header>
   )
-}
+};
+
+export default Header;

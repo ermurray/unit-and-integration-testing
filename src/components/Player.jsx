@@ -1,18 +1,77 @@
 import React, { useEffect } from 'react';
+import { announceResult, assignRobotItem } from '../helpers/helpers';
 
-export default function Player(props) {
+const Player = (props) => {
+  const {playerSelection, compSelection, cheating} = props.state;
+  const {setState} = props;
+  const options = [
+    ['Moai', '🗿'],
+    ['Axe', '🪓'],
+    ['Tree', '🌳']
+  ];
+
+  useEffect(() => {
+    if(playerSelection && compSelection){
+      const status = announceResult(playerSelection, compSelection);
+      setState(prevState => ({ ...prevState, status }));
+    }
+  }, [playerSelection, compSelection, setState]);
+
+  useEffect(() => {
+    if (playerSelection) {
+      const compSelection = assignRobotItem(cheating, playerSelection);
+      setState(prevState => ({ ...prevState, compSelection }));
+    }
+  }, [playerSelection, cheating, setState]);
+
+  const resetState = () => {
+    setState(prevState => ({
+        ...prevState,
+        playerSelection: null,
+        compSelection: null,
+        status: 'Waiting'
+      }
+    ));
+  };
+
+  const registerPlayerItem = (value, updater) => {
+    updater(prevState => ({ ...prevState, playerSelection: value }));
+  };
 
   return (
     <section className="player">
-      <span role="img" aria-label="player" >🧔</span>
+      <span
+        role="img"
+        aria-label="player"
+        onClick={resetState}
+      >👤</span>
       <div>
         <h1>Choose your destiny !</h1>
         <div className="choices">
-          <button type="button" value="Moai"><span role="img" aria-label="moai">🗿</span></button>
-          <button type="button" value="Axe"><span role="img" aria-label="axe">🪓</span></button>
-          <button type="button" value="Tree"><span role="img" aria-label="tree">🌳</span></button>
+
+          { options.map((option) => {
+            const [choice, symbol] = option;
+            return (
+              <button
+                onClick={() => registerPlayerItem(choice, setState)}
+                type="button"
+                value={choice}
+                key={choice}
+              >
+                <span
+                  role="img"
+                  aria-label={choice.toLowerCase()}
+                >
+                  {symbol}
+                </span>
+              </button>
+            );
+          }) }
+
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
+
+export default Player;
